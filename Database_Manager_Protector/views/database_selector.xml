@@ -1,0 +1,123 @@
+<odoo>
+    <template id="template_db_manager_masterpwd" name="DB Manager Master Password">
+        <!-- 使用 web.layout 作為基底 -->
+        <t t-call="web.layout">
+            <t t-call-assets="web.assets_frontend"/>
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card shadow-sm">
+
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Database Manager - Master Password</h5>
+                            </div>
+                            <div class="card-body">
+                                <t t-if="error">
+                                    <div class="alert alert-danger" role="alert">
+                                        Incorrect master password. Please try again.
+                                    </div>
+                                </t>
+
+                                <form method="post" action="/web/database/manager" class="needs-validation"
+                                      novalidate="novalidate">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="mb-3">
+                                        <label for="master_pwd" class="form-label">Master Password</label>
+                                        <div class="input-group">
+                                            <input type="password"
+                                                   class="form-control"
+                                                   id="master_pwd"
+                                                   name="master_pwd"
+                                                   required="required"
+                                                   autofocus="autofocus"/>
+                                            <button class="btn btn-outline-secondary" type="button" id="toggleMasterPwd"
+                                                    aria-label="Toggle password">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback">Please enter the master password.</div>
+                                    </div>
+
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <button type="submit" class="btn btn-primary">Proceed</button>
+                                        <a href="/" class="btn btn-link">Back to Home</a>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="card-footer text-muted small">
+                                Access to database manager requires the master password.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                (function () {
+                'use strict';
+                try {
+                var btn = document.getElementById('toggleMasterPwd');
+                var input = document.getElementById('master_pwd');
+                if (btn &amp;&amp; input) {
+                btn.addEventListener('click', function () {
+                try {
+                if (input.type === 'password') {
+                input.type = 'text';
+                var icon = btn.querySelector('i') || btn.querySelector('span');
+                if (icon) {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+                if (icon.tagName.toLowerCase() === 'span') {
+                icon.textContent = 'Hide';
+                }
+                }
+                } else {
+                input.type = 'password';
+                var icon2 = btn.querySelector('i') || btn.querySelector('span');
+                if (icon2) {
+                icon2.classList.remove('fa-eye-slash');
+                icon2.classList.add('fa-eye');
+                if (icon2.tagName.toLowerCase() === 'span') {
+                icon2.textContent = 'Show';
+                }
+                }
+                }
+                } catch (innerErr) {
+                console.error('toggleMasterPwd handler error', innerErr);
+                }
+                });
+                }
+                } catch (err) {
+                console.error('toggleMasterPwd init error', err);
+                }
+                })();
+            </script>
+
+
+            <style type="text/css">
+                .card { border-radius: .25rem; border: 1px solid #e3e6ea; background: #fff; }
+                .card-header.bg-primary { background-color: #0d6efd !important; color: #fff; }
+                .btn-primary { background-color: #0d6efd; border-color: #0d6efd; color: #fff; padding:.375rem .75rem;
+                border-radius:.25rem; }
+                .container { max-width: 720px; margin: 0 auto; }
+            </style>
+
+            <script type="text/javascript">
+                (function () {
+                'use strict';
+                var forms = document.querySelectorAll('.needs-validation');
+                Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+                }, false);
+                });
+                })();
+            </script>
+        </t>
+    </template>
+</odoo>
